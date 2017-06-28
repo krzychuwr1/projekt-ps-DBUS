@@ -1,0 +1,28 @@
+@model projekt_ps_DBUS.ViewModels.ResultsViewModel
+
+<div id="dbusData">
+    <p>@Model.Type</p>
+    <p>Tekst</p>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function getNewData() {
+
+            $.ajax({
+                url: "/Dbus/ResultsAjax" + "?type=" + "@Model.Type",
+                type: "GET",
+                success: function (data) {
+                    $("#dbusData").append("<p>" + data + "</p>");
+                    getNewData();
+                },
+                error: function () {
+                }
+            });
+        }
+
+$(function(){
+   getNewData();
+});
+    </script>
+}

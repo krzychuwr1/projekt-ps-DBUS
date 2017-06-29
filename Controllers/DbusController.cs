@@ -13,14 +13,38 @@ namespace projekt_ps_DBUS.Controllers
 {
     public class DbusController : Controller
     {
-        private static StreamReader output;
+        public IActionResult Form() => View();
 
-        public IActionResult Results(string type) => View(new ResultsViewModel() { Type = type });
+        public IActionResult Results(string type, string sender, string @interface) => View(new ResultsViewModel() { Type = type, Sender = sender, Interface = @interface });
 
-        public async Task<IActionResult> ResultsAjax(string type)
+        public async Task<IActionResult> ResultsAjax(string type, string sender, string @interface)
         {
-            var args = $"\"type='{type}'\"";
-            if(!ProcessesMap.Map.ContainsKey(args))
+            var args = string.Empty;
+
+            if (!string.IsNullOrEmpty(type))
+            {
+                args += $"\"type='{type}'\""; 
+            }
+
+            if (!string.IsNullOrEmpty(sender))
+            {
+                if(!string.IsNullOrEmpty(args))
+                {
+                    args += ", ";
+                }
+                args += $"\"sender='{sender}'\"";
+            }
+
+            if (!string.IsNullOrEmpty(@interface))
+            {
+                if(!string.IsNullOrEmpty(args))
+                {
+                    args += ", ";
+                }
+                args += $"\"sender='{@interface}'\"";
+            }
+
+            if (!ProcessesMap.Map.ContainsKey(args))
             {
                 var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("dbus-monitor", args) {
                     RedirectStandardOutput = true,
@@ -35,7 +59,7 @@ namespace projekt_ps_DBUS.Controllers
 
             var line = await output.ReadLineAsync();
 
-            return Json(line?.ToString());
+            return Json(line?.ToString() ?? string.Empty);
         }
     }
 }

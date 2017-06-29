@@ -1,8 +1,18 @@
 @model projekt_ps_DBUS.ViewModels.ResultsViewModel
 
 <div id="dbusData">
-    <p>@Model.Type</p>
-    <p>Tekst</p>
+    <h2>Type: 
+        @{
+            if(@Model.Type != null)
+            {
+                @Html.Raw(@Model.Type);
+            }
+            else
+            {
+                @Html.Raw("All");
+            }
+        }
+    <h2>
 </div>
 
 @section Scripts {
@@ -10,11 +20,14 @@
         function getNewData() {
 
             $.ajax({
-                url: "/Dbus/ResultsAjax" + "?type=" + "@Model.Type",
+                url: "/Dbus/ResultsAjax" + "?type=" + "@Model.Type" + "&sender=" + "@Model.Sender" + "&interface=" + "@Model.Interface",
                 type: "GET",
                 success: function (data) {
-                    $("#dbusData").append("<p>" + data + "</p>");
-                    getNewData();
+                    if(data != null)
+                    {
+                        $("#dbusData").append("<p>" + data + "</p>");
+                        getNewData();
+                    }
                 },
                 error: function () {
                 }

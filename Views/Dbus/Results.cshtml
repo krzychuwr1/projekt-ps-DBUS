@@ -12,20 +12,20 @@
                 @Html.Raw("All");
             }
         }
-    <h2>
-    <h3>Sender: 
+    </h2>
+    <h2>Sender: 
         @{
             if(@Model.Sender != null)
             {
-                @Html.Raw(@Model.Sender;
+                @Html.Raw(@Model.Sender);
             }
             else
             {
                 @Html.Raw("All");
             }
         }
-    <h3>
-    <h3>Interface: 
+    </h2>
+    <h2>Interface: 
         @{
             if(@Model.Interface != null)
             {
@@ -36,7 +36,7 @@
                 @Html.Raw("All");
             }
         }
-    <h3>
+    </h2>
 </div>
 
 @section Scripts {

@@ -46,20 +46,35 @@ namespace projekt_ps_DBUS.Controllers
 
             if (!ProcessesMap.Map.ContainsKey(args))
             {
-                var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("dbus-monitor", args) {
+                AddProcess(args);
+            }
+
+            string line = null;
+
+            try
+            {
+                var output = ProcessesMap.Map[args].StandardOutput;
+                line = await output.ReadLineAsync();
+            }
+            catch (Exception)
+            {
+                AddProcess(args);
+                var output = ProcessesMap.Map[args].StandardOutput;
+                line = await output.ReadLineAsync();
+            }
+
+            return Json(line?.ToString() ?? string.Empty);
+        }
+
+        private void AddProcess(string args)
+        {
+            var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("dbus-monitor", args) {
                     RedirectStandardOutput = true,
                     RedirectStandardInput = true,
                     RedirectStandardError = true,
                     }
                 );
-                ProcessesMap.Map.Add(args, proc);
-            }
-
-            var output = ProcessesMap.Map[args].StandardOutput;
-
-            var line = await output.ReadLineAsync();
-
-            return Json(line?.ToString() ?? string.Empty);
+                ProcessesMap.Map[args] = proc;
         }
     }
 }

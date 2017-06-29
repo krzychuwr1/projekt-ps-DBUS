@@ -13,6 +13,30 @@
             }
         }
     <h2>
+    <h3>Sender: 
+        @{
+            if(@Model.Sender != null)
+            {
+                @Html.Raw(@Model.Sender;
+            }
+            else
+            {
+                @Html.Raw("All");
+            }
+        }
+    <h3>
+    <h3>Interface: 
+        @{
+            if(@Model.Interface != null)
+            {
+                @Html.Raw(@Model.Interface);
+            }
+            else
+            {
+                @Html.Raw("All");
+            }
+        }
+    <h3>
 </div>
 
 @section Scripts {

@@ -1,0 +1,19 @@
+<h2>Filter</h2>
+<h3>Choose what you want to monitor</h3>
+
+<form action="Results" method="get">
+  Type: <select name="type">
+    <option value="">All</option>>
+    <option value="method_call">method calls</option>
+    <option value="method_return">method returns</option>
+    <option value="signal">signals</option>
+    <option value="error">errors</option>
+</select>
+<br />
+<br />
+  Sender: <input type="text" name="sender"><br>
+<br />
+  Interface: <input type="text" name="interface"><br>
+<br />
+  <input type="submit" value="Submit">
+</form> 
